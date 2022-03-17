@@ -51,7 +51,7 @@ public class main {
 	}
 	
 	public main() {
-		initialize();
+		//initialize();
 		login();
 	}	 
 	
@@ -71,12 +71,12 @@ public class main {
 		create();
 	}
 	
-	private void initialize() {
-//		setFrame(new JFrame());
-//		getFrame().setBounds(100, 100, 450, 300);
-//		getFrame().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		login();
-	}
+//	private void initialize() {
+////		setFrame(new JFrame());
+////		getFrame().setBounds(100, 100, 450, 300);
+////		getFrame().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//		login();
+//	}
 
 	private static Connection connect() {
 		try {
@@ -226,7 +226,7 @@ private void login() {
 			}
 			Statement statement = connection.createStatement();
 			
-			String mysql = "CREATE DATABASE IF NOT EXISTS GAMES_LIBRARY";
+			String mysql = "CREATE DATABASE IF NOT EXISTS GAMES_LIBRARY";	
 			statement.executeUpdate(mysql);
 			statement.executeUpdate("USE GAMES_LIBRARY");
 			// to create users table :
@@ -237,9 +237,9 @@ private void login() {
 			// create Games Table :
 			statement.executeUpdate("CREATE TABLE IF NOT EXISTS GAMES(GAMEID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,GAMENAME VARCHAR(50), PLATFORM VARCHAR(30), PRICE INT)");
 			// create 'issued' table :
-			statement.executeUpdate("CREATE TABLE IF NOT EXISTS ISSUED(ISSUEID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,USERID INT,GAMEID INT,ISSUED_DATE VARCHAR(20),RETURN_DATE VARCHAR(20),PERIOD INT,FINE INT)");
+			statement.executeUpdate("CREATE TABLE IF NOT EXISTS ISSUED(ISSUEID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,USERID INT,GAMEID INT,ISSUED_DATE VARCHAR(20),RETURN_DATE VARCHAR(20),PERIOD_DAYS INT, FINE INT)"); 
 			// insert new Games table :
-			statement.executeUpdate("INSERT INTO GAMES(GAMENAME, PLATFORM, PRICE)VALUES ('Sonic the Hedgehog', 'Xbox One', 50),('Minecraft', 'Xbox One', 45),('Gran Tourismo', 'Playstation', 55),('Doom', 'Nintendo Cube', 35)");
+			statement.executeUpdate("INSERT INTO GAMES(GAMENAME, PLATFORM, PRICE)VALUES ('Minecraft', 'Xbox One', 45)"); 
 			
 				rs.close();
 			}
@@ -453,7 +453,7 @@ private void login() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				JFrame frame = new JFrame("Our Users");
+				JFrame frame = new JFrame("Issued Games");
 				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 				Connection connection = connect();
@@ -484,29 +484,33 @@ private void login() {
 		
 		
 	// button to add new games:
-		JButton addGame = new JButton("Add New Game");
-		addGame.setBounds(280, 105, 150, 30);
-		addGame.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		addGame.setBackground(new Color(255, 215, 0));
-		addGame.addActionListener(new ActionListener() {
+		JButton addGameBtn = new JButton("Add New Game");
+		addGameBtn.setBounds(280, 105, 150, 30);
+		addGameBtn.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		addGameBtn.setBackground(new Color(255, 215, 0));
+		addGameBtn.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				
 				JFrame newGame = new JFrame("Enter Game Details");
 				newGame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-				
+	//-----------------------------------------------------------------------------			
 				JLabel gameName = new JLabel("Game Name");
 				gameName.setBounds(30, 15, 100, 30);
 				gameName.setBackground(new Color(255, 215, 0));
 				gameName.setForeground(new Color(255, 255, 255));
+				
 				JLabel gamePlat = new JLabel("Platform");
 				gamePlat.setBounds(30, 53, 100, 30);
 				gamePlat.setBackground(new Color(255, 215, 0));
 				gamePlat.setForeground(new Color(255, 255, 255));
+				
 				JLabel gamePrice = new JLabel("Price");
 				gamePrice.setBounds(30, 90, 100, 30);
 				gamePrice.setBackground(new Color(255, 215, 0));
 				gamePrice.setForeground(new Color(255, 255, 255));
+	//------------------------------------------------------------------------------			
 				JTextField nameField = new JTextField();
 				nameField.setBounds(110, 15, 200, 30);
 				nameField.setForeground(new Color(112, 128, 144));
@@ -538,9 +542,12 @@ private void login() {
 							Statement statement = connection.createStatement();
 							statement.executeUpdate("USE GAMES_LIBRARY");
 							statement.executeUpdate("INSERT INTO GAMES(GAMENAME, PLATFORM, PRICE) "
-													+ "VALUES ('" + gName + "', '"
-																  + platform + "', '" 
-																  + price_int + ")");
+															+ "VALUES ('" +gName+ "', '"
+																			+platform+ "', "
+																			+price_int+ ")");  
+							
+							
+							
 							JOptionPane.showMessageDialog(null, "Adding Game...");
 							newGame.dispose();
 							}
@@ -553,10 +560,10 @@ private void login() {
 				frame.getContentPane().setBackground(new Color(119, 136, 153));
 				frame.getContentPane().setLayout(null);
 				newGame.getContentPane().setBackground(new Color(119, 136, 153));
-				newGame.add(gamePrice);
 				newGame.add(addNew);
 				newGame.add(gameName);
 				newGame.add(gamePlat);
+				newGame.add(gamePrice);
 				newGame.add(nameField);
 				newGame.add(platField);
 				newGame.add(priceField);
@@ -571,67 +578,57 @@ private void login() {
 	        issueGame.setBounds(450, 60, 110, 30);
 	        issueGame.setFont(new Font("Tahoma", Font.PLAIN, 12));
 	        issueGame.setBackground(new Color(255, 215, 0));
+
 	        issueGame.addActionListener(new ActionListener() {
 	 
 	            @Override
 	            public void actionPerformed(ActionEvent e) {
-	                JFrame gmDetails = new JFrame();
-	                JLabel gId;
-	                JLabel uId;
-	                JLabel isId;
-	                JLabel rDate;
-	                JLabel period;
-	                JLabel isDate;
-
-	                gId = new JLabel("GAMEID");
+	                JFrame gmDetails = new JFrame("Enter Details");
+	                
+	                JLabel gId = new JLabel("GAMEID");
 	                gId.setBounds(30, 15, 180, 30);
 	                gId.setBackground(new Color(255, 215, 0));
 	                gId.setForeground(new Color(255, 255, 255));
-	                uId = new JLabel("USERID");
+	                
+	                JLabel uId = new JLabel("USERID");
 	                uId.setBounds(30, 53, 180, 30);
 	                uId.setForeground(new Color(255, 255, 255));
 	                uId.setBackground(new Color(255, 215, 0));
-	                period = new JLabel("PERIOD(num. Days)");
+	                
+	                JLabel period = new JLabel("PERIOD(num. Days)");
 	                period.setBounds(30, 90, 180, 30);
 	                period.setForeground(new Color(255, 255, 255));
 	                period.setBackground(new Color(255, 215, 0));
-	                isDate = new JLabel("ISSUED_DATE(DD-MM-YYYY)");
+	                
+	                JLabel isDate = new JLabel("ISSUED_DATE(DD-MM-YYYY)");
 	                isDate.setBounds(30, 127, 180, 30);
 	                isDate.setForeground(new Color(255, 255, 255));
 	                isDate.setBackground(new Color(255, 215, 0));
-	                isId = new JLabel("ISSUEID");
-	                isId.setBounds(30, 170, 180, 30);
-	                isId.setForeground(new Color(255, 255, 255));
-	                isId.setBackground(new Color(255, 215, 0));
-	                rDate = new JLabel("RETURN_DATE(DD-MM-YYYY)");
-	                rDate.setBounds(30, 210, 180, 30);
-	                rDate.setForeground(new Color(255, 255, 255));
-	                rDate.setBackground(new Color(255, 215, 0));
-
+	                      	                	                
+	              //-------Game ID:
 	                JTextField gameText = new JTextField();
 	                gameText.setBounds(200, 15, 200, 30);
 	                gameText.setForeground(new Color(112, 128, 144));
 	                gameText.setFont(new Font("Tahoma", Font.BOLD, 14));
+	               
+	                
+	             //-------User ID:
 	                JTextField userText = new JTextField();
 	                userText.setBounds(200, 53, 200, 30);
 	                userText.setForeground(new Color(112, 128, 144));
 	                userText.setFont(new Font("Tahoma", Font.BOLD, 14));
+	                
+	             
+	             //-------Period:
 	                JTextField periodText = new JTextField();
 	                periodText.setBounds(200, 90, 200, 30);
 	                periodText.setForeground(new Color(112, 128, 144));
 	                periodText.setFont(new Font("Tahoma", Font.BOLD, 14));
-	                JTextField issuedText = new JTextField();
-	                issuedText.setBounds(200, 130, 130, 30);
-	                issuedText.setForeground(new Color(112, 128, 144));
-	                issuedText.setFont(new Font("Tahoma", Font.BOLD, 14));
-	                JTextField idField = new JTextField();
-	                idField.setBounds(200, 170, 200, 30);
-	                idField.setForeground(new Color(112, 128, 144));
-	                idField.setFont(new Font("Tahoma", Font.BOLD, 14));
-	                JTextField dField = new JTextField();
-	                dField.setBounds(200, 210, 200, 30);
-	                dField.setForeground(new Color(112, 128, 144));
-	                dField.setFont(new Font("Tahoma", Font.BOLD, 14));
+	             
+	                JTextField issuedDateText = new JTextField();
+	                issuedDateText.setBounds(200, 130, 130, 30);
+	                issuedDateText.setForeground(new Color(112, 128, 144));
+	                issuedDateText.setFont(new Font("Tahoma", Font.BOLD, 14));
 
 	                JButton newIssued = new JButton("SUBMIT");
 	                newIssued.setBounds(200, 260, 100, 30);
@@ -641,19 +638,23 @@ private void login() {
 	                    public void actionPerformed(ActionEvent e) {
 	                        String user = userText.getText();
 	                        String game = gameText.getText();
-	                        String p = periodText.getText();
-	                        int period_int = Integer.parseInt(p);
-	                        String date = issuedText.getText();
+	                        String p_int = periodText.getText();
+	                        String date = issuedDateText.getText();
+	                       
+	                        int period_int = Integer.parseInt(p_int);
+	                        
 	                        Connection connection = connect();
 
 	                        try {
 	                            Statement statement = connection.createStatement();
 	                            statement.executeUpdate("USE GAMES_LIBRARY;");
-	                            statement.executeUpdate("SELECT * FROM games_library.issued INSERT INTO issued (userid, gameid, issued_date, period)"
+	                            statement.executeUpdate("INSERT INTO ISSUED (USERID, GAMEID, ISSUED_DATE, PERIOD_DAYS)" 
 	                                                                + "VALUES ('" + user + "', '"
 	                                                                              + game + "', '" 
-	                                                                              + date + "', '" 
-	                                                                              + period_int + "')'");
+	                                                                              + date + "', "
+	                                                                              + p_int +")");
+	                                                                             
+	                            
 	                            JOptionPane.showMessageDialog(null, "Game Issued Successfully");
 	                            gmDetails.dispose();    
 	                        }
@@ -671,15 +672,11 @@ private void login() {
 	                gmDetails.add(issueGame);
 	                gmDetails.add(gId);
 	                gmDetails.add(uId);
-	                gmDetails.add(isId);
-	                gmDetails.add(rDate);
 	                gmDetails.add(userText);
 	                gmDetails.add(gameText);
 	                gmDetails.add(periodText);
-	                gmDetails.add(issuedText);
+	                gmDetails.add(issuedDateText);
 	                gmDetails.add(newIssued);
-	                gmDetails.add(idField);
-	                gmDetails.add(dField);
 	                gmDetails.setSize(440, 350);
 	                gmDetails.setLayout(null);
 	                gmDetails.setVisible(true);
@@ -700,30 +697,29 @@ private void login() {
 				JFrame retrn = new JFrame("Enter Details");
 				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				
-				JLabel isId;
-				JLabel rDate;
+				JLabel issueId = new JLabel("ISSUEID");
+				issueId.setBounds(30, 15, 150, 30);
+				JTextField idField = new JTextField();
+				idField.setBounds(110, 15, 200, 30);
+				
+				JLabel returnDate = new JLabel("RETURN_DATE (DD-MM-YYYY)");
+				returnDate.setBounds(30, 50, 150, 30);
+				JTextField rdField = new JTextField();
+				rdField.setBounds(180, 50, 130, 30);
+				
+				
 				JLabel l3;
 				JLabel l4;
 				
-				isId = new JLabel("ISSUEID");
-				isId.setBounds(30, 15, 150, 30);
-				rDate = new JLabel("RETURN_DATE (DD-MM-YYYY)");
-				rDate.setBounds(30, 50, 150, 30);
-				JTextField idField = new JTextField();
-				idField.setBounds(110, 15, 200, 30);
-				JTextField dField = new JTextField();
-				dField.setBounds(180, 50, 130, 30);
-				
 				JButton retBtn = new JButton("Return");
 				retBtn.setBounds(130, 170, 80, 25);
-				
 				retBtn.addActionListener(new ActionListener() {
 
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						// TODO Auto-generated method stub
-						String id = idField.getText();
-						String date = dField.getText();
+						String iid = idField.getText();
+						String rdate = rdField.getText();
 						
 						Connection connection = connect();
 						
@@ -732,11 +728,9 @@ private void login() {
 							statement.executeUpdate("USE GAMES_LIBRARY");
 							
 							String d1 = null;
-							String d2 = date;
+							String d2 = rdate;
 							// select issue date:
-							ResultSet r = statement.executeQuery("SELECT ISSUED_DATE"
-																+ "FROM ISSUED"
-																+ "WHERE ISSUEID = " + id);
+							ResultSet r = statement.executeQuery("SELECT ISSUED_DATE FROM ISSUED WHERE ISSUEID="+iid);
 							while(r.next()) {
 								d1 = r.getString(1);
 							}
@@ -753,18 +747,14 @@ private void login() {
 							}
 							
 							// update return date:
-							statement.executeUpdate("UPDATE ISSUED "
-													+ "SET RETURN_DATE = '" + date
-													+ "WHERE ISSUEID = " + id);
+							statement.executeUpdate("UPDATE ISSUED SET RETURN_DATE = '" + rdate + "' WHERE ISSUEID="+iid);
 							retrn.dispose();
 							
 							Connection connection2 = connect();
 							Statement statement2 = connection2.createStatement();
 							statement2.executeUpdate("USE GAMES_LIBRARY");
 							
-							ResultSet r2 = statement2.executeQuery("SELECT PERIOD "
-																	+ "FROM ISSUED"
-																	+ "WHERE ISSUEID = " + id);
+							ResultSet r2 = statement2.executeQuery("SELECT PERIOD_DAYS FROM ISSUED WHERE ISSUEID ="+iid);
 							String dif = null;
 							while(r2.next()) {
 								dif = r2.getString(1);
@@ -776,10 +766,12 @@ private void login() {
 								int fine = (ex.days - dif_int)*10;
 								// update fine :
 								statement2.executeUpdate("UPDATE ISSUED SET FINE = " + fine
-														+ "WHERE ISSUEID = " + id);
+														+ "WHERE ISSUEID="+iid);
 								String fineStr = ("Fine: $" + fine);
-								JOptionPane.showMessageDialog(null,  "Game Returned Successfully");
+								JOptionPane.showMessageDialog(null, fineStr);
 						}
+							JOptionPane.showMessageDialog(null,  "Game Returned Successfully");
+
 					}
 						catch(SQLException e1) {
 							JOptionPane.showMessageDialog(null, e1);
@@ -787,11 +779,11 @@ private void login() {
 					}
 				}
 			);
-				retrn.add(rDate);
+				retrn.add(returnDate);
 				retrn.add(retBtn);
-				retrn.add(isId);
+				retrn.add(issueId);
 				retrn.add(idField);
-				retrn.add(dField);
+				retrn.add(rdField);
 				retrn.setSize(350, 250);
 				retrn.setLayout(null);
 				retrn.setVisible(true);
@@ -801,10 +793,9 @@ private void login() {
 	);
 		frame.getContentPane().setBackground(new Color(119, 136, 153));
 		frame.getContentPane().setLayout(null);
-		//frame.add(createBtn);
 		frame.add(returnGame);
 		frame.add(issueGame);
-		frame.add(addGame);
+		frame.add(addGameBtn);
 		frame.add(issuedBtn);
 		frame.add(usersBtn);
 		frame.add(viewBtn);
@@ -883,7 +874,7 @@ private void login() {
 						JFrame frame = new JFrame("User Menu - My Game List"); //view book
 						frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 						Connection conn = connect();
-						String sql = "SELECT issueid,userid,gameid,issued_date,return_date,period,fine FROM issued";
+						String sql = "SELECT issueid,userid,gameid,issued_date,return_date,PERIOD_DAYS,fine FROM issued";
 						String sqlt = "SELECT userid FROM issued";
 						try {
 							Statement stmt = conn.createStatement();
