@@ -269,13 +269,8 @@ public class main {
 					// view as table:
 					JTable game_list = new JTable();
 					game_list.setModel(DbUtils.resultSetToTableModel(r));
-					game_list.setGridColor(Color.gray);
-					game_list.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 					game_list.setBackground(new Color(119, 136, 153));
 					game_list.setForeground(new Color(255, 255, 255));
-					game_list.getTableHeader().setFont(new Font("SansSerif", Font.BOLD, 13));
-					game_list.getTableHeader().setBackground(Color.DARK_GRAY);
-					game_list.getTableHeader().setForeground(Color.white);
 
 					// add scroll bar:
 					JScrollPane sp = new JScrollPane(game_list);
@@ -317,13 +312,8 @@ public class main {
 
 					JTable game_list = new JTable();
 					game_list.setModel(DbUtils.resultSetToTableModel(r));
-					game_list.setGridColor(Color.gray);
-					game_list.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 					game_list.setBackground(new Color(119, 136, 153));
 					game_list.setForeground(new Color(255, 255, 255));
-					game_list.getTableHeader().setFont(new Font("SansSerif", Font.BOLD, 13));
-					game_list.getTableHeader().setBackground(Color.DARK_GRAY);
-					game_list.getTableHeader().setForeground(Color.white);
 
 					JScrollPane sp = new JScrollPane(game_list);
 					sp.getViewport().setBackground(new Color(119, 136, 153));
@@ -362,13 +352,8 @@ public class main {
 
 					JTable game_list = new JTable();
 					game_list.setModel(DbUtils.resultSetToTableModel(r));
-					game_list.setGridColor(Color.gray);
-					game_list.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 					game_list.setBackground(new Color(119, 136, 153));
 					game_list.setForeground(new Color(255, 255, 255));
-					game_list.getTableHeader().setFont(new Font("SansSerif", Font.BOLD, 13));
-					game_list.getTableHeader().setBackground(Color.DARK_GRAY);
-					game_list.getTableHeader().setForeground(Color.white);
 
 					JScrollPane sp = new JScrollPane(game_list);
 					sp.setViewportView(game_list);
@@ -1055,13 +1040,8 @@ public class main {
 					// to see database in a table format:
 					JTable game_list = new JTable();
 					game_list.setModel(DbUtils.resultSetToTableModel(rs));
-					game_list.setGridColor(Color.gray);
-					game_list.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 					game_list.setBackground(new Color(119, 136, 153));
 					game_list.setForeground(new Color(255, 255, 255));
-					game_list.getTableHeader().setFont(new Font("SansSerif", Font.BOLD, 13));
-					game_list.getTableHeader().setBackground(Color.DARK_GRAY);
-					game_list.getTableHeader().setForeground(Color.white);
 					// add scroll bar to window:
 					JScrollPane sp = new JScrollPane(game_list);
 					sp.getViewport().setBackground(new Color(119, 136, 153));
@@ -1100,13 +1080,8 @@ public class main {
 					ResultSet rs = stmt.executeQuery(sql);
 					JTable game_list = new JTable();
 					game_list.setModel(DbUtils.resultSetToTableModel(rs));
-					game_list.setGridColor(Color.gray);
-					game_list.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 					game_list.setBackground(new Color(119, 136, 153));
 					game_list.setForeground(new Color(255, 255, 255));
-					game_list.getTableHeader().setFont(new Font("SansSerif", Font.BOLD, 13));
-					game_list.getTableHeader().setBackground(Color.DARK_GRAY);
-					game_list.getTableHeader().setForeground(Color.white);
 
 					JScrollPane scroll = new JScrollPane(game_list);
 					scroll.getViewport().setBackground(new Color(119, 136, 153));
