@@ -5,12 +5,14 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
+
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 import javax.swing.Box;
@@ -26,6 +28,10 @@ import javax.swing.*;
 
 import net.proteanit.sql.DbUtils;
 import javax.swing.JOptionPane;
+
+import java.text.DateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 public class main {
 	private JFrame frame;
@@ -269,13 +275,13 @@ public class main {
 					// view as table:
 					JTable game_list = new JTable();
 					game_list.setModel(DbUtils.resultSetToTableModel(r));
-					game_list.setBackground(new Color(119, 136, 153));
-					game_list.setForeground(new Color(255, 255, 255));
+					//game_list.setBackground(new Color(119, 136, 153));
+					//game_list.setForeground(new Color(255, 255, 255));
 
 					// add scroll bar:
 					JScrollPane sp = new JScrollPane(game_list);
 					sp.setViewportView(game_list);
-					sp.getViewport().setBackground(new Color(119, 136, 153));
+					//sp.getViewport().setBackground(new Color(119, 136, 153));
 
 					// add arguments for frame:
 					frame.add(sp);
@@ -310,13 +316,13 @@ public class main {
 					statement = connection.createStatement();
 					ResultSet r = statement.executeQuery(msql);
 
-					JTable game_list = new JTable();
-					game_list.setModel(DbUtils.resultSetToTableModel(r));
-					game_list.setBackground(new Color(119, 136, 153));
-					game_list.setForeground(new Color(255, 255, 255));
+					JTable user_list = new JTable();
+					user_list.setModel(DbUtils.resultSetToTableModel(r));
+					//user_list.setBackground(new Color(119, 136, 153));    // Users.
+					//user_list.setForeground(new Color(255, 255, 255));
 
-					JScrollPane sp = new JScrollPane(game_list);
-					sp.getViewport().setBackground(new Color(119, 136, 153));
+					JScrollPane sp = new JScrollPane(user_list);
+					//sp.getViewport().setBackground(new Color(119, 136, 153));
 
 					frame.add(sp);
 					frame.setSize(800, 400);
@@ -352,12 +358,12 @@ public class main {
 
 					JTable game_list = new JTable();
 					game_list.setModel(DbUtils.resultSetToTableModel(r));
-					game_list.setBackground(new Color(119, 136, 153));
-					game_list.setForeground(new Color(255, 255, 255));
+					//game_list.setBackground(new Color(119, 136, 153));
+					//game_list.setForeground(new Color(255, 255, 255));
 
 					JScrollPane sp = new JScrollPane(game_list);
 					sp.setViewportView(game_list);
-					sp.getViewport().setBackground(new Color(119, 136, 153));
+					//sp.getViewport().setBackground(new Color(119, 136, 153));
 
 					frame.add(sp);
 					frame.setSize(800, 400);
@@ -551,9 +557,9 @@ public class main {
 				newGame.setLocationRelativeTo(null);
 			}
 		});
-
+//=============================================================================================================
 		// button for add issued game
-		JButton issueGame = new JButton("Add Issued Game");
+		JButton issueGame = new JButton("Issue Game");
 		issueGame.setBounds(450, 60, 130, 30);
 		issueGame.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		issueGame.setBackground(new Color(255, 215, 0));
@@ -583,10 +589,10 @@ public class main {
 				isDate.setForeground(new Color(255, 255, 255));
 				isDate.setBackground(new Color(255, 215, 0));
 
-				JLabel fine = new JLabel("FINE");
-				fine.setBounds(30, 167, 180, 30);
-				fine.setForeground(new Color(255, 255, 255));
-				fine.setBackground(new Color(255, 215, 0));
+//				JLabel fine = new JLabel("FINE");
+//				fine.setBounds(30, 167, 180, 30);
+//				fine.setForeground(new Color(255, 255, 255));
+//				fine.setBackground(new Color(255, 215, 0));
 
 				// -------Game ID:
 				JTextField gameText = new JTextField();
@@ -611,10 +617,10 @@ public class main {
 				issuedDateText.setForeground(new Color(112, 128, 144));
 				issuedDateText.setFont(new Font("Tahoma", Font.BOLD, 14));
 
-				JTextField fineText = new JTextField();
-				fineText.setBounds(200, 170, 200, 30);
-				fineText.setForeground(new Color(112, 128, 144));
-				fineText.setFont(new Font("Tahoma", Font.BOLD, 14));
+//				JTextField fineText = new JTextField();
+//				fineText.setBounds(200, 170, 200, 30);
+//				fineText.setForeground(new Color(112, 128, 144));
+//				fineText.setFont(new Font("Tahoma", Font.BOLD, 14));
 
 				JButton newIssued = new JButton("Add Issued Game");
 				newIssued.setBounds(200, 210, 150, 30);
@@ -626,22 +632,18 @@ public class main {
 						String game = gameText.getText();
 						String p_int = periodText.getText();
 						String date = issuedDateText.getText();
-						String fine = fineText.getText();
+						//String fine = fineText.getText();
 
 						int period_int = Integer.parseInt(p_int);
-						int fine_int = Integer.parseInt(fine);
+						//int fine_int = Integer.parseInt(fine);
 
 						Connection connection = connect();
 						
 						try {
 							Statement statement = connection.createStatement();
 							statement.executeUpdate("USE GAMES_LIBRARY;");
-                            statement.executeUpdate("INSERT INTO ISSUED (USERID, GAMEID, ISSUED_DATE, PERIOD_DAYS, FINE)" 
-                                    + "VALUES ('" + user + "', '"
-                                                  + game + "', '" 
-                                                  + date + "', '"
-                                                  + p_int + "', '"
-                                                  + fine + "');");
+                            statement.executeUpdate("INSERT INTO ISSUED (USERID, GAMEID, ISSUED_DATE, PERIOD_DAYS)" 
+                                    + "VALUES ('" + user + "', '" + game + "', '" + date + "', "+ p_int + ")");
 
 							JOptionPane.showMessageDialog(null, "Game Issued Successfully");
 							gmDetails.dispose();
@@ -664,15 +666,16 @@ public class main {
 				gmDetails.add(periodText);
 				gmDetails.add(issuedDateText);
 				gmDetails.add(newIssued);
-				gmDetails.add(fine);
-				gmDetails.add(fineText);
+				//gmDetails.add(fine);
+				//gmDetails.add(fineText);
 				gmDetails.setSize(440, 300);
 				gmDetails.setLayout(null);
 				gmDetails.setVisible(true);
 				gmDetails.setLocationRelativeTo(null);
 			}
 		});
-
+//=================================================================================================================
+		
 		JButton returnGame = new JButton("Return Game");
 		returnGame.setBounds(20, 105, 110, 30);
 		returnGame.setFont(new Font("Tahoma", Font.PLAIN, 12));
@@ -728,13 +731,14 @@ public class main {
 								d1 = r.getString(1);
 							}
 							try {
-								java.util.Date date1 = new SimpleDateFormat("DD-MM-YYYY").parse(d1);
-								java.util.Date date2 = new SimpleDateFormat("DD-MM-YYYY").parse(d2);
+								Date date1 = new SimpleDateFormat("DD-MM-YYYY").parse(d1);
+								Date date2 = new SimpleDateFormat("DD-MM-YYYY").parse(d2);
 								// subtract dates + save difference:
 								long difference = date2.getTime() - date1.getTime();
 								// convert from milliseconds to days:
 								ex.days = (int) (TimeUnit.DAYS.convert(difference, TimeUnit.MILLISECONDS));
-							} catch (ParseException e1) {
+							} 
+							catch (ParseException e1) {
 								e1.printStackTrace();
 							}
 
@@ -746,15 +750,14 @@ public class main {
 							Connection connection2 = connect();
 							Statement statement2 = connection2.createStatement();
 							statement2.executeUpdate("USE GAMES_LIBRARY");
-
-							ResultSet r2 = statement2
-									.executeQuery("SELECT PERIOD_DAYS FROM ISSUED WHERE ISSUEID =" + iid);
-							String dif = null;
+							ResultSet r2 = statement2.executeQuery("SELECT PERIOD_DAYS FROM ISSUED WHERE ISSUEID =" + iid);
+							String difference = null;
 							while (r2.next()) {
-								dif = r2.getString(1);
+								difference = r2.getString(1);
 							}
-							int dif_int = Integer.parseInt(dif);
-							if (ex.days > dif_int) {
+							int dif_int = Integer.parseInt(difference);
+							
+							if (ex.days >= dif_int) {
 								System.out.println(ex.days);
 								// fine for each day after period = r2*10
 								int fine = (ex.days - dif_int) * 10;
@@ -782,7 +785,8 @@ public class main {
 				retrn.getContentPane().setBackground(new Color(119, 136, 153));
 			}
 		});
-
+//==========================================================================================================
+		
 		// button to delete game
 		JButton delGameBtn = new JButton("Delete Game");
 		delGameBtn.setBounds(20, 150, 110, 30);
@@ -907,67 +911,7 @@ public class main {
 			}
 		});
 
-		// button to issued game
-		JButton delIssuedBtn = new JButton("Delete Issued Game");
-		delIssuedBtn.setBounds(280, 150, 150, 30);
-		delIssuedBtn.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		delIssuedBtn.setBackground(new Color(255, 215, 0));
 
-		delIssuedBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				JFrame frame = new JFrame("Delete Issued Game Details");
-				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-				JLabel issuedId = new JLabel("ISSUED GAME ID");
-				issuedId.setBounds(30, 15, 180, 30);
-				issuedId.setBackground(new Color(255, 215, 0));
-				issuedId.setForeground(new Color(255, 255, 255));
-
-				JTextField issuedIdText = new JTextField();
-				issuedIdText.setBounds(150, 15, 230, 30);
-				issuedIdText.setForeground(new Color(112, 128, 144));
-				issuedIdText.setFont(new Font("Tahoma", Font.BOLD, 14));
-
-				JButton delBtn = new JButton("Delete Issued Game");
-				delBtn.setBounds(150, 60, 200, 30);
-				delBtn.setBackground(new Color(255, 215, 0));
-				delBtn.addActionListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						String iid = issuedIdText.getText();
-
-						Connection connection = connect();
-
-						try {
-							Statement statement = connection.createStatement();
-							statement.executeUpdate("USE GAMES_LIBRARY");
-
-							String d1 = null;
-							ResultSet r = statement.executeQuery("SELECT issueid FROM issued WHERE issueid=" + iid);
-							while (r.next()) {
-								d1 = r.getString(1);
-							}
-
-							statement.executeUpdate("DELETE FROM issued WHERE issueid=" + iid);
-							frame.dispose();
-
-							JOptionPane.showMessageDialog(null, "Issued Game Deleted Successfully");
-
-						} catch (SQLException e1) {
-							JOptionPane.showMessageDialog(null, e1);
-						}
-					}
-				});
-				frame.add(issuedId);
-				frame.add(issuedIdText);
-				frame.add(delBtn);
-				frame.setSize(450, 180);
-				frame.setLayout(null);
-				frame.setVisible(true);
-				frame.setLocationRelativeTo(null);
-				frame.getContentPane().setBackground(new Color(119, 136, 153));
-			}
-		});
 
 		// button to log out
 		JButton alogoutBtn = new JButton("Log Out");
@@ -994,7 +938,7 @@ public class main {
 		frame.add(l_title);
 		frame.add(delUserBtn);
 		frame.add(delGameBtn);
-		frame.add(delIssuedBtn);
+		//frame.add(delIssuedBtn);
 		frame.add(alogoutBtn);
 		frame.setSize(630, 250);
 		frame.setLayout(null);
@@ -1015,7 +959,7 @@ public class main {
 		l_title.setBounds(65, 10, 243, 45);
 
 		// create instance of button:
-		JButton viewBtn = new JButton("View Games");
+		JButton viewBtn = new JButton("View All");
 		viewBtn.setBounds(60, 60, 110, 30);
 		viewBtn.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		viewBtn.setBackground(new Color(255, 215, 0));
@@ -1038,13 +982,13 @@ public class main {
 					statement = connection.createStatement();
 					ResultSet rs = statement.executeQuery(sql);
 					// to see database in a table format:
-					JTable game_list = new JTable();
+					JTable game_list = new JTable();   
 					game_list.setModel(DbUtils.resultSetToTableModel(rs));
-					game_list.setBackground(new Color(119, 136, 153));
-					game_list.setForeground(new Color(255, 255, 255));
+					//game_list.setBackground(new Color(119, 136, 153));
+					//game_list.setForeground(new Color(255, 255, 255));
 					// add scroll bar to window:
 					JScrollPane sp = new JScrollPane(game_list);
-					sp.getViewport().setBackground(new Color(119, 136, 153));
+					//sp.getViewport().setBackground(new Color(119, 136, 153));
 
 					frame.add(sp);
 					// dimensions of the games pane:
@@ -1066,25 +1010,30 @@ public class main {
 
 		my_games.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
 				JFrame frame = new JFrame("User Menu - My Game List"); // view book
 				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				int user_int = Integer.parseInt(user);
 				Connection conn = connect();
-				String sql = "SELECT issueid,userid,gameid,issued_date,return_date,PERIOD_DAYS,fine FROM issued";
-				String sqlt = "SELECT userid FROM issued";
+				String sql = "SELECT DISTINCT ISSUED.*,GAMES.GNAME, GAMES.PRICE,return_date,period_days,fine FROM ISSUED.GAMES"
+						+ "WHERE((ISSUED.USERID="+user_int+")AND(GAMES.GAMEID IN(SELECT GAMEID FROM ISSUED WHERE ISSUED.USERID="+user_int+")))GROUP BY ISSUEID";			
+				
+				String sqlt = "SELECT GAMEID FROM ISSUED WHERE USERID="+user_int;
+				//  user + "', '" + game + "', '" + date + "', "+ p_int 
 				try {
 					Statement stmt = conn.createStatement();
 					stmt.executeUpdate("USE games_library");
 					stmt = conn.createStatement();
-					// ArrayList games_list = new ArrayList();
+					ArrayList games_list = new ArrayList();
 
 					ResultSet rs = stmt.executeQuery(sql);
 					JTable game_list = new JTable();
 					game_list.setModel(DbUtils.resultSetToTableModel(rs));
-					game_list.setBackground(new Color(119, 136, 153));
-					game_list.setForeground(new Color(255, 255, 255));
+					//game_list.setBackground(new Color(119, 136, 153));
+					//game_list.setForeground(new Color(255, 255, 255));
 
 					JScrollPane scroll = new JScrollPane(game_list);
-					scroll.getViewport().setBackground(new Color(119, 136, 153));
+					//scroll.getViewport().setBackground(new Color(119, 136, 153));
 
 					frame.getContentPane().add(scroll);
 					frame.setSize(800, 400);
